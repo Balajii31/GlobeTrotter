@@ -1,10 +1,10 @@
 import { createClient } from '@/lib/supabase/server'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
-export async function GET(request: Request, { params }: { params: { tripId: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ tripId: string }> }) {
     try {
+        const { tripId } = await params
         const supabase = await createClient()
-        const { tripId } = params
 
         const { data: sections, error } = await supabase
             .from('trip_sections')
@@ -26,10 +26,10 @@ export async function GET(request: Request, { params }: { params: { tripId: stri
     }
 }
 
-export async function PUT(request: Request, { params }: { params: { tripId: string } }) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ tripId: string }> }) {
     try {
+        const { tripId } = await params
         const supabase = await createClient()
-        const { tripId } = params
         const { sections } = await request.json()
 
         const keptSectionIds: string[] = []

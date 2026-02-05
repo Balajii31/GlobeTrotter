@@ -1,12 +1,13 @@
 import { createClient } from '@/lib/supabase/server'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 // GET /api/trips/[tripId] - Get single trip with full details
 export async function GET(
-    request: Request,
-    { params }: { params: { tripId: string } }
+    request: NextRequest,
+    { params }: { params: Promise<{ tripId: string }> }
 ) {
     try {
+        const { tripId } = await params
         const supabase = await createClient()
 
         const { data: { user }, error: authError } = await supabase.auth.getUser()
@@ -28,7 +29,7 @@ export async function GET(
           )
         )
       `)
-            .eq('id', params.tripId)
+            .eq('id', tripId)
             .eq('user_id', user.id)
             .single()
 
@@ -50,10 +51,11 @@ export async function GET(
 
 // PATCH /api/trips/[tripId] - Update trip
 export async function PATCH(
-    request: Request,
-    { params }: { params: { tripId: string } }
+    request: NextRequest,
+    { params }: { params: Promise<{ tripId: string }> }
 ) {
     try {
+        const { tripId } = await params
         const supabase = await createClient()
 
         const { data: { user }, error: authError } = await supabase.auth.getUser()
@@ -76,7 +78,7 @@ export async function PATCH(
                 status,
                 updated_at: new Date().toISOString(),
             })
-            .eq('id', params.tripId)
+            .eq('id', tripId)
             .eq('user_id', user.id)
             .select(`
         *,
@@ -98,10 +100,11 @@ export async function PATCH(
 
 // DELETE /api/trips/[tripId] - Delete trip
 export async function DELETE(
-    request: Request,
-    { params }: { params: { tripId: string } }
+    request: NextRequest,
+    { params }: { params: Promise<{ tripId: string }> }
 ) {
     try {
+        const { tripId } = await params
         const supabase = await createClient()
 
         const { data: { user }, error: authError } = await supabase.auth.getUser()
@@ -113,7 +116,7 @@ export async function DELETE(
         const { error } = await supabase
             .from('trips')
             .delete()
-            .eq('id', params.tripId)
+            .eq('id', tripId)
             .eq('user_id', user.id)
 
         if (error) {

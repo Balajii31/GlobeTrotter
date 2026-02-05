@@ -29,6 +29,7 @@
 - **Insightful Dashboard**: Monitor platform growth with trip and user analytics.
 - **User Management**: Simple tools for administrators to manage the community.
 - **Performance Metrics**: Track top destinations and popular activities.
+- **Unified Fixed Layout**: A high-performance dashboard UI with fixed navigation and integrated components for a seamless user experience.
 
 ---
 

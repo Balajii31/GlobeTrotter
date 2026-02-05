@@ -69,10 +69,9 @@ export function Sidebar() {
                 />
             )}
 
-            {/* Sidebar */}
             <aside
                 className={`
-          fixed left-0 top-0 z-40 h-screen w-72
+          fixed left-0 top-16 z-40 h-[calc(100vh-64px)] w-72
           bg-card border-r shadow-xl
           transform transition-transform duration-300 ease-in-out
           lg:translate-x-0
